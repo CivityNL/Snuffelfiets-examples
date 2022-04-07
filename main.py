@@ -1,18 +1,29 @@
-# Because of the amount of Snuffelfiets data which has been collected by now, downloading the entire dataset in one
-# go is no longer feasible. The CKAN data store API though allows you to download chunks of Snuffelfiets data. This
-# code snippet provides an example how this could be achieved. All Snuffelfiets measurements contain a
-# recording_timestamp column which can be used for this purpose. This particular example will download Snuffelfiets data
-# per hour and calculates summary statistics per hour using a pandas data frame. But other processes, for instance
-# to save the data to local files, can be implemented in a similar fashion. What a suitable interval is to download
-# data for depends on the amount of sensors collecting data using a particular resource. If the interval is too big,
-# time outs may occur.
+# Copyright (c) 2021, Civity BV Zeist
+# All rights reserved.
 #
-# The Snuffelfiets data are available in different versions: unprocessed data, unprocessed calibrated data and
-# processed data. This approach will work for all of them. Not all versions are publicly available though. If a version
-# is not publicly available, an API key is required to be able to access the data. If you have an API key, it can be
-# found in CKAN. Log in and click on your username in the top right corner of the screen. You can then find your API
-# key on the left of the screen. To select the proper version, the identifier of the resource must be provided. This
-# identifier can be found in CKAN as well, for instance in the address bar. Not all variants are publicly available.
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+#
+# * Redistributions of source code must retain the above copyright notice, this
+#   list of conditions and the following disclaimer.
+# * Redistributions in binary form must reproduce the above copyright notice,
+#   this list of conditions and the following disclaimer in the documentation
+#   and/or other materials provided with the distribution.
+# * Neither the name of the copyright holder nor the names of its contributors
+#   may be used to endorse or promote products derived from this software without
+#   specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+# ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+# LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+# CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
 
 import requests
 import json
@@ -33,7 +44,7 @@ def calculate_statistics(resource_id, api_key, no_hours):
         to_date_time_string = to_date_time.strftime('%Y-%m-%d %H:%M:%S')
 
         # Create SQL for data store API call
-        sql = "SELECT * " \
+        sql = "SELECT # " \
               "FROM {} " \
               "WHERE recording_timestamp > '{}' " \
               "AND recording_timestamp < '{}'".format(
